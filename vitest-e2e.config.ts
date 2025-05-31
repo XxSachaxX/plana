@@ -1,9 +1,10 @@
 import { defineConfig } from 'vitest/config';
-import { swc } from '@swc/core';
+import swc from 'unplugin-swc';
 
 export default defineConfig({
   test: {
     globals: true,
+    setupFiles: ['./test/setup.ts'],
     environment: 'node',
     include: ['**/*.e2e-spec.ts'],
     exclude: ['node_modules', 'dist'],
@@ -12,30 +13,25 @@ export default defineConfig({
       enabled: true,
       tsconfig: './tsconfig.json',
     },
-    transform: {
-      '^.+\\.(t|j)s$': [
-        'vite-plugin-swc',
-        {
-          swc: {
-            jsc: {
-              parser: {
-                syntax: 'typescript',
-                decorators: true,
-              },
-              target: 'es2021',
-              transform: {
-                decoratorMetadata: true,
-              },
-            },
-          },
-        },
-      ],
-    },
     deps: {
       interopDefault: true,
     },
     clearMocks: true,
     passWithNoTests: true,
   },
+  plugins: [
+    swc.vite({
+      jsc: {
+        parser: {
+          syntax: 'typescript',
+          decorators: true,
+        },
+        target: 'es2021',
+        transform: {
+          decoratorMetadata: true,
+        },
+      },
+    }),
+  ],
 });
 
