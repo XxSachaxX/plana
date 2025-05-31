@@ -5,7 +5,6 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 describe('AppController', () => {
   let appController: AppController;
-  let appService: AppService;
 
   // Create a proper mock of AppService
   const mockAppService = {
@@ -24,7 +23,6 @@ describe('AppController', () => {
     }).compile();
 
     appController = moduleRef.get<AppController>(AppController);
-    appService = moduleRef.get<AppService>(AppService);
   });
 
   describe('root', () => {
